@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  namenode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: huy-master
+    hostname: huy-master
+    networks:
+      hadoop-net:
+        ipv4_address: 172.18.0.10
+    ports:
+      - "19870:9870"
+      - "18088:8088"
+    tty: true
+    stdin_open: true
+
+  datanode1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: huy-slave1
+    hostname: huy-slave1
+    networks:
+      hadoop-net:
+        ipv4_address: 172.18.0.11
+    tty: true
+    stdin_open: true
+
+  datanode2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: huy-slave2
+    hostname: huy-slave2
+    networks:
+      hadoop-net:
+        ipv4_address: 172.18.0.12
+    tty: true
+    stdin_open: true
+
+networks:
+  hadoop-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
